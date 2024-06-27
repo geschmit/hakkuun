@@ -1,0 +1,5 @@
+- original prog is a bit bloaty. condense related libs & funcs
+- perform an overhaul of how stuff is referred. tickets -> hours in all doc cases
+- redesign how sessions could be handled. keep current format but figure out how to document easier
+- (IMPORTANT) add intro skip. people sometimes dont wanna see that, they know whats going on
+- async vs multithreads: what can we do different?
