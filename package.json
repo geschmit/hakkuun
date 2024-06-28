@@ -9,6 +9,10 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "dev": "bun run index.ts"
+    "dev": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.19.0",
+    "consola": "^3.2.3"
   }
 }
