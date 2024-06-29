@@ -8,3 +8,7 @@ export const DBase = new Database(":memory:")
 export const GetMinutes = async () => {
     // todo airtable api
 }
+
+export const GetTutoCompletion = async ():boolean => {
+
+}

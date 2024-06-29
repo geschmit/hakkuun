@@ -6,7 +6,6 @@ console.info(`Starting Hakkuun...`)
 
 
 
-
 process.on("SIGINT",() => {
     console.log("Waiting for workers to terminate...")
     DBase.close()
