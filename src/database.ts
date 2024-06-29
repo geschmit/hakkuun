@@ -9,6 +9,6 @@ export const GetMinutes = async () => {
     // todo airtable api
 }
 
-export const GetTutoCompletion = async ():boolean => {
+export const GetTutoCompletion = (uid:string):boolean => {
 
 }
