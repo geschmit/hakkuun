@@ -8,7 +8,8 @@ console.info(`Starting Hakkuun...`)
 StartHTTPServer()
 
 process.on("SIGINT",() => {
-    console.info("Waiting for workers to terminate...")
+    console.info("Waiting for tasks to terminate...")
     StopHTTPServer()
     DBase.close()
+    
 })

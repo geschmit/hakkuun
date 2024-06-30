@@ -1,6 +1,6 @@
 import type { App } from "@slack/bolt"
 import { consola } from "consola/basic"
-import { AssignSession, FindBestCanidate } from "./bot"
+import { AssignBot, FindBestCanidate } from "./bot"
 const console = consola.withTag("session")
 
 export interface Session {
@@ -29,7 +29,7 @@ export const CreateSession = (uid:string, type:string):Session|undefined => {
     }
 
     sesh.worker.addEventListener("open",() => {
-        AssignSession(bot,sesh)
+        AssignBot(bot,sesh)
         sessions.push(sesh)
     })
 
