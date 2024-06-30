@@ -2,12 +2,10 @@ import { Hono } from "hono/tiny"
 import { consola } from "consola/basic"
 import type { Server } from "bun"
 import { GetTutoCompletion } from "./database"
+import { SessionExists } from "./session"
 
 const console = consola.withTag("server")
-const sessions:Array<Worker> = []
 let server:Server
-
-const SessionExists = (uid:string) => sessions.find((v:Worker,idx:number) => {v.name == uid})
 
 const app = new Hono()
 app.post("/api/sessions/start",(c) => {
@@ -22,7 +20,6 @@ app.post("/api/sessions/start",(c) => {
 
     if (GetTutoCompletion(uid) == false) {
         // start tutorial
-
     }
 
     return c.text('wawa')
@@ -38,10 +35,9 @@ app.post("/api/sessions/stop",(c) => {
             text: "A session is not currently active."
         })
     }
-    session.terminate()
     return c.json({
         response_type: "ephemeral",
-        text: "Your session was forfeited."
+        text: ":rac_pf: Your session was forfeited!"
     })
 })
 
