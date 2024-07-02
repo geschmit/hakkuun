@@ -1,4 +1,4 @@
-import { cache } from "./db/cache"
+import { dbCache } from "./db/cache"
 import { consola } from "consola/basic"
 import { StartHTTPServer, StopHTTPServer } from "./server"
 
@@ -10,6 +10,6 @@ StartHTTPServer()
 process.on("SIGINT",() => {
     console.info("Waiting for tasks to terminate...")
     StopHTTPServer()
-    cache.close()
+    dbCache.close()
     
 })
