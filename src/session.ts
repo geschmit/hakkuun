@@ -1,15 +1,17 @@
 import type { App } from "@slack/bolt"
 import { consola } from "consola/basic"
-import { AssignBot, FindBestCanidate } from "./bot"
+import { AssignBot, FindBestCanidate, type Bot } from "./bot"
 const console = consola.withTag("session")
 
 export interface Session {
     uid:string,
     sessionType:string
     created:Date,
-    bot:App
+    bot:Bot
     worker:Worker
 }
+
+export type SessionTransportPacket = [string,any]
 
 const sessions:Array<Session> = []
 

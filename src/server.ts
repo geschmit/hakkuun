@@ -1,7 +1,7 @@
 import { Hono } from "hono/tiny"
 import { consola } from "consola/basic"
 import type { Server } from "bun"
-import { GetTutoCompletion } from "./database"
+import { GetTutoCompletion } from "./db/cache"
 import { SessionExists } from "./session"
 
 const console = consola.withTag("server")

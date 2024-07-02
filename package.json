@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@slack/bolt": "^3.19.0",
+    "airtable": "^0.12.2",
     "consola": "^3.2.3",
     "hono": "^4.4.9"
   }
