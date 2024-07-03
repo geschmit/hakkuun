@@ -20,7 +20,7 @@ export interface Bot {
 
 const bots:Array<Bot> = []
 
-export const CreateBot = async (botCreds:BotCredentials) => {
+export const CreateBot = async (botCreds:BotCredentials):Promise<Bot> => {
     let bot:Bot = {
         uid: Math.floor(Math.random()*1e9).toString(16).substring(0,7),
         app: new App(botCreds),
@@ -35,6 +35,8 @@ export const CreateBot = async (botCreds:BotCredentials) => {
     } catch(err) {
         console.error(err)
     }
+
+    return bot
 }
 
 export const AssignBot = (bot:Bot,sesh:Session) => {

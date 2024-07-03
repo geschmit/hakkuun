@@ -16,8 +16,15 @@ export const Data_GetBotSecrets = ():Array<BotCredentials> => {
         for (const y of Object.keys(x)) {
             if (y == "hash") { continue }
             // todo | may need optimization. I develop integrated circuits, not encryption standards
-            const crypt = createDecipheriv("aes-256-gcm",Bun.env["BOT_SECRET_KEY"]||"",Bun.env["BOT_SECRET_IV"]||"")
-            const decr = crypt.update(x[y],"base64")
+
+            // todo | by any sort of meaning this is most likely equal to burning a bible in front 
+            // todo | of the pope by how godawful and ineffective this is to someone who knows
+            // todo | how to implement this properly
+
+            const [hash,tag] = (x[y] as string).split(".")
+            const crypt = createDecipheriv("aes-256-gcm",Buffer.from(Bun.env["BOT_SECRET_KEY"]||"","utf-8"),Buffer.from(Bun.env["BOT_SECRET_IV"]||"","utf-8"))
+            crypt.setAuthTag(Buffer.from(tag))
+            const decr = crypt.update(x[y],"hex")
             rec[y] = crypt.final("utf-8")
         }
         const genHash = new Bun.SHA256()

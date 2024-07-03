@@ -1,8 +1,8 @@
 import { Hono } from "hono/tiny"
 import { consola } from "consola/basic"
 import type { Server } from "bun"
-import { GetTutoCompletion } from "./db/cache"
 import { SessionExists } from "./session"
+import { Cache_GetUser } from "./db/cache"
 
 const console = consola.withTag("server")
 let server:Server
@@ -18,7 +18,7 @@ app.post("/api/sessions/start",(c) => {
         })
     }
 
-    if (GetTutoCompletion(uid) == false) {
+    if (Cache_GetUser(uid).hours == 0) {
         // start tutorial
     }
 
