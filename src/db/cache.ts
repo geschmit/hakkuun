@@ -27,7 +27,7 @@ export const Cache_ScheduleSync = (when:Date) => {
         logger.info("Disabling job control for workers...")
 
         logger.info("Rescheduling cache -> at sync...")
-        //Cache_ScheduleSync(new Date()) // todo -> figure out when we should schedule in advance
+        Cache_ScheduleSync(new Date(Date.now()+parseInt(Bun.env["SYNC_MS"] || "NaN")))
         
         logger.warn("***  AIRTABLE SYNC COMPLETE   ***")
         
@@ -37,7 +37,7 @@ export const Cache_ScheduleSync = (when:Date) => {
 
 export const Cache_DescheduleSync = () => {
     if (!syncTO) {
-        console.warn("Attempted to deschedule a sync while one was not scheduled or was in progress already")
+        console.error("Attempted to deschedule a sync while one was not scheduled or was in progress already")
         return
     }
     clearTimeout(syncTO)

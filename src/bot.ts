@@ -1,36 +1,46 @@
-import { App } from "@slack/bolt"
+import { App, type Logger } from "@slack/bolt"
 import { SessionExists, type Session, type SessionTransportPacket } from "./session"
-import { consola } from "consola"
+import { consola, type ConsolaInstance } from "consola/basic"
 
 const console = consola.withTag("bot")
 
 export interface BotCredentials {
+    socketMode: boolean
     signingSecret:string,
     token:string,
-    appToken:string,
-    socketMode:true
+    appToken:string
 }
 
 export interface Bot {
     app:App,
     start:Date,
     handling:Array<Session>
-    uid:string
+    uid:string,
+    logger:ConsolaInstance
 }
 
 const bots:Array<Bot> = []
 
 export const CreateBot = async (botCreds:BotCredentials):Promise<Bot> => {
+    const uid = Math.floor(Math.random()*1e9).toString(16).substring(0,7)
+    let logger = console.withTag(uid)
+    logger = {...logger,...{  // compatability with the slack logger so both us and bolt can use it
+        getLevel: () => logger.level,
+        setLevel: (level:number) => logger.level = level,
+        setName: (name:string) => {}
+    }} as unknown as ConsolaInstance
     let bot:Bot = {
-        uid: Math.floor(Math.random()*1e9).toString(16).substring(0,7),
-        app: new App(botCreds),
+        uid: uid,
+        app: new App({...botCreds,...{socketMode:true,logger:(logger as unknown as Logger)}}),
         start: new Date(),
-        handling:[]
+        handling:[],
+        logger: logger
     }
+    
 
     try {
         await bot.app.start()
-        console.info(`[bot@${bot.uid}] Bot logged in and ready to submit responses`)
+        logger.info(`Bot logged in and ready to submit responses`)
         bots.push(bot)
     } catch(err) {
         console.error(err)
@@ -42,7 +52,7 @@ export const CreateBot = async (botCreds:BotCredentials):Promise<Bot> => {
 export const AssignBot = (bot:Bot,sesh:Session) => {
     const logger = console.withTag(`[bot@${bot.uid}]`)
     if (SessionExists(sesh.uid,bot.handling)) {
-        logger.warn(`Tried to accept duplicate session for user ${sesh.uid}`)
+        logger.error(`Tried to accept duplicate session for user ${sesh.uid}`)
         return
     }
     sesh.bot = bot

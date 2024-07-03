@@ -18,7 +18,7 @@ const sessions:Array<Session> = []
 export const SessionExists = (uid:string,seshs:Array<Session>=sessions) => seshs.find((v:Session,idx:number) => {v.uid == uid})
 export const CreateSession = (uid:string, type:string):Session|undefined => {
     if (SessionExists(uid)) {
-        console.warn(`Attempted to spawn new session for uid ${uid} when session already exists`)
+        console.error(`Attempted to spawn new session for uid ${uid} when session already exists`)
         return
     }
     console.info(`Spawning new session - [ uid ${uid}, sessionType "${type}" ]`)
@@ -41,7 +41,7 @@ export const CreateSession = (uid:string, type:string):Session|undefined => {
 export const TerminateSession = (uid:string) => {
     const sesh = SessionExists(uid)
     if (!sesh) {
-        console.warn(`Attempted to terminate non-existant session for uid ${uid}`)
+        console.error(`Attempted to terminate non-existant session for uid ${uid}`)
         return
     }
     sesh.worker.terminate()
